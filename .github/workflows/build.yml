@@ -7,11 +7,18 @@ on:
 jobs:
   compilepawn:
     runs-on: ubuntu-latest
-    container: sacnr/pawncc
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install sampctl
+        run: |
+          curl https://raw.githubusercontent.com/Southclaws/sampctl/master/install.sh | bash
+          echo "$HOME/.samp/bin" >> $GITHUB_PATH
+
       - name: Compile
-        run: /pawnc/bin/pawncc bykranin.pwn -o bykranin.amx -d2 -Z
+        run: sampctl package build
+
       - name: Upload amx
         uses: actions/upload-artifact@v4
         with:
