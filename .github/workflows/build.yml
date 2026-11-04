@@ -13,8 +13,8 @@ jobs:
 
       - name: Download Pawn compiler
         run: |
-          wget https://github.com/pawn-lang/compiler/releases/download/v3.10.10/pawnc-3.10.10-linux.tar.gz
-          tar -xvf pawnc-3.10.10-linux.tar.gz
+          curl -L -o pawnc.tar.gz https://github.com/pawn-lang/compiler/releases/download/v3.10.10/pawnc-3.10.10-linux.tar.gz
+          tar -xvf pawnc.tar.gz
 
       - name: Compile Pawn script
         run: |
