@@ -1,0 +1,19 @@
+name: Compile Pawn
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  compilepawn:
+    runs-on: ubuntu-latest
+    container: sacnr/pawncc
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile
+        run: /pawnc/bin/pawncc bykranin.pwn -o bykranin.amx -d2 -Z
+      - name: Upload amx
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-amx
+          path: bykranin.amx
