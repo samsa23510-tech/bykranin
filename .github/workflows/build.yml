@@ -15,6 +15,11 @@ jobs:
         run: |
           unzip -o include.zip -d .
 
+      - name: Find and copy includes
+        run: |
+          mkdir -p include
+          find . -name "*.inc" -exec cp {} include/ \;
+
       - name: Compile inside Docker
         uses: addnab/docker-run-action@v3
         with:
