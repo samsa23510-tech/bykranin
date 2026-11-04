@@ -7,15 +7,18 @@ on:
 jobs:
   compilepawn:
     runs-on: ubuntu-latest
-    container:
-      image: sacnr/pawncc:latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Compile Pawn script
-        run: |
-          /pawnc/bin/pawncc bykranin.pwn -i include/ -o bykranin.amx
+      - name: Compile inside Docker
+        uses: addnab/docker-run-action@v3
+        with:
+          image: sacnr/pawncc:latest
+          options: -v ${{ github.workspace }}:/work
+          run: |
+            cd /work
+            /pawnc/bin/pawncc bykranin.pwn -i include/ -o bykranin.amx
 
       - name: Upload compiled file
         uses: actions/upload-artifact@v4
