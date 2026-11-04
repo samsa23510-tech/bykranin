@@ -7,18 +7,15 @@ on:
 jobs:
   compilepawn:
     runs-on: ubuntu-latest
+    container:
+      image: sacnr/pawncc:latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download Pawn compiler
-        run: |
-          curl -L -o pawnc.tar.gz https://github.com/pawn-lang/compiler/releases/download/v3.10.10/pawnc-3.10.10-linux.tar.gz
-          tar -xvf pawnc.tar.gz
-
       - name: Compile Pawn script
         run: |
-          ./pawnc-3.10.10/bin/pawncc bykranin.pwn -i include/ -o bykranin.amx
+          /pawnc/bin/pawncc bykranin.pwn -i include/ -o bykranin.amx
 
       - name: Upload compiled file
         uses: actions/upload-artifact@v4
