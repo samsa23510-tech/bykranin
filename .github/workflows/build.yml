@@ -11,6 +11,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Prepare includes
+        run: |
+          mkdir -p include
+          cp *.inc include/ || true
+
       - name: Compile inside Docker
         uses: addnab/docker-run-action@v3
         with:
@@ -18,8 +23,6 @@ jobs:
           options: -v ${{ github.workspace }}:/work
           run: |
             cd /work
-            mkdir -p include
-            find . -name "*.inc" ! -path "./include/*" -exec cp {} include/ \;
             /pawnc/bin/pawncc bykranin.pwn -i include/ -o bykranin.amx
 
       - name: Upload compiled file
