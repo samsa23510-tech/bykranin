@@ -11,14 +11,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Unzip include folder
+      - name: Extract and prepare includes
         run: |
-          unzip -o include.zip -d .
-
-      - name: Find and copy includes
-        run: |
-          mkdir -p include
-          find . -name "*.inc" -exec cp {} include/ \;
+          # Если есть zip, распаковываем
+          if [ -f include.zip ]; then unzip -o include.zip -d .; fi
+          # Создаем чистую папку include и копируем туда ВСЕ найденные .inc файлы
+          mkdir -p compiled_includes
+          find . -name "*.inc" -exec cp {} compiled_includes/ \;
+          ls compiled_includes
 
       - name: Compile inside Docker
         uses: addnab/docker-run-action@v3
@@ -27,7 +27,7 @@ jobs:
           options: -v ${{ github.workspace }}:/work
           run: |
             cd /work
-            /pawnc/bin/pawncc bykranin.pwn -i include/ -o bykranin.amx
+            /pawnc/bin/pawncc bykranin.pwn -i compiled_includes/ -o bykranin.amx
 
       - name: Upload compiled file
         uses: actions/upload-artifact@v4
