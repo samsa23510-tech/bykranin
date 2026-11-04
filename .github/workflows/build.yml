@@ -18,10 +18,9 @@ jobs:
           options: -v ${{ github.workspace }}:/work
           run: |
             cd /work
-            # Ищем файлы .inc ВЕЗДЕ и копируем их прямо в папку с компилятором
-            find . -name "*.inc" -exec cp {} /pawnc/include/ \;
-            # Компилируем, используя встроенные пути компилятора
-            /pawnc/bin/pawncc bykranin.pwn -o bykranin.amx
+            touch bykranin.amx
+            chmod 777 bykranin.amx
+            /pawnc/bin/pawncc bykranin.pwn -i include/ -o bykranin.amx
 
       - name: Upload compiled file
         uses: actions/upload-artifact@v4
