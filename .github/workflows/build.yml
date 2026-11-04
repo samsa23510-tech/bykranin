@@ -11,6 +11,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Unzip include folder
+        run: |
+          unzip -o include.zip -d .
+
       - name: Compile inside Docker
         uses: addnab/docker-run-action@v3
         with:
