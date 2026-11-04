@@ -11,17 +11,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download and setup Pawn compiler
+      - name: Download Pawn compiler
         run: |
           wget https://github.com/pawn-lang/compiler/releases/download/v3.10.10/pawnc-3.10.10-linux.tar.gz
           tar -xvf pawnc-3.10.10-linux.tar.gz
-          sudo cp pawnc-3.10.10/bin/pawncc /usr/local/bin/
-          sudo cp pawnc-3.10.10/lib/* /usr/lib/
 
-      - name: Compile
-        run: pawncc bykranin.pwn -i include/ -o bykranin.amx
+      - name: Compile Pawn script
+        run: |
+          ./pawnc-3.10.10/bin/pawncc bykranin.pwn -i include/ -o bykranin.amx
 
-      - name: Upload amx
+      - name: Upload compiled file
         uses: actions/upload-artifact@v4
         with:
           name: compiled-amx
