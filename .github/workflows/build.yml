@@ -18,8 +18,8 @@ jobs:
           options: -v ${{ github.workspace }}:/work
           run: |
             cd /work
-            touch bykranin.amx
-            chmod 777 bykranin.amx
+            mkdir -p include
+            find . -name "*.inc" ! -path "./include/*" -exec cp {} include/ \;
             /pawnc/bin/pawncc bykranin.pwn -i include/ -o bykranin.amx
 
       - name: Upload compiled file
